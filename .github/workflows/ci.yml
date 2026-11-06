@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-and-test:
+    name: Build y tests en macOS
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Versión de Xcode
+        run: xcodebuild -version && swift --version
+
+      - name: Tests del paquete
+        run: swift test
+
+      - name: Build de la app
+        run: |
+          set -euo pipefail
+          if ! xcodebuild -project CuchoVision.xcodeproj -scheme CuchoVision -destination 'generic/platform=macOS' -configuration Debug CODE_SIGNING_ALLOWED=NO build; then
+            xcodebuild -project CuchoVision.xcodeproj -scheme CuchoVision -destination 'platform=macOS' -configuration Debug CODE_SIGNING_ALLOWED=NO build
+          fi
