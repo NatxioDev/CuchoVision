@@ -8,15 +8,40 @@ Hands-free mouse for the Mac. This version moves the cursor with your head via A
 
 CuchoVision corre todo en tu Mac. No manda video ni movimiento a ningún servidor. Es código abierto, licencia MIT.
 
-Trabaja por niveles. Solo el primero está armado:
-
-| Nivel | Hardware | Estado |
-|---|---|---|
-| **1 — Cabeza** | AirPods con head tracking | Esta versión. Girá la cabeza y el cursor se mueve. |
-| **2 — Ojos** | Cámara de la Mac | Más adelante. |
-| **3 — Watch** | Apple Watch | Al final. Clicks, click derecho, arrastre y scroll. |
-
 Sirve con AirPods que tengan *dynamic head tracking*: AirPods Pro, AirPods Pro 2, AirPods Max, AirPods 3 y AirPods 4. Los AirPods 2 y los EarPods no sirven.
+
+## Visión
+
+**Controlá el cursor de tu Mac con la cabeza, la mirada y tu Apple Watch.**
+*Control your Mac's cursor with your head, your eyes and your Apple Watch.*
+
+CuchoVision convierte el hardware que ya tenés en un mouse sin manos para macOS. Trabaja por **niveles**: cada uno suma precisión y funciones, y se activa solo si tenés ese hardware. Solo el primero está armado. La tabla junta qué suma cada nivel con el estado de esta versión.
+
+| Nivel | Hardware | Qué suma | Estado |
+|---|---|---|---|
+| **1 — Cabeza** (la base) | AirPods con head tracking | Movés el cursor girando la cabeza, con suavizado, imán a los botones y click por permanencia (dwell). Anda por su cuenta. | Esta versión. Girá la cabeza y el cursor se mueve. El imán y el dwell todavía no. |
+| **2 — Ojos** | Cámara de la Mac | La mirada salta el cursor adonde mirás; la cabeza lo afina. | Más adelante. |
+| **3 — Watch** | Apple Watch | Clicks y gestos: doble tap o pellizco, click derecho, scroll y arrastre. | Al final. Clicks, click derecho, arrastre y scroll. |
+
+### Funciones planeadas
+
+La idea completa. Lo que ya está en el código está marcado en el [Roadmap](#roadmap).
+
+- 🎧 **Seguimiento de la cabeza** con `CMHeadphoneMotionManager` (AirPods). El cursor se mueve con `CGEvent`.
+- 👀 **Seguimiento de la mirada** con la cámara de la Mac (Vision / MediaPipe iris) y una calibración de 9 puntos.
+- 🧈 **Suavizado**: filtro One Euro, zona muerta, aceleración y recentrar.
+- 🧲 **Imán** a los botones con la API de Accesibilidad de macOS.
+- ⏱️ **Click por permanencia (dwell)**: quedarte quieto sobre algo para hacer click.
+- ⌚ **Gestos del Apple Watch**: click, click derecho, scroll y arrastre, mandados a la Mac por Bluetooth o la red local.
+- ⌨️ **Pausa automática al escribir**: el control se pausa cuando un campo de texto tiene el foco y se reanuda cuando salís.
+- 🖥️ **Varios monitores**: la cabeza elige la pantalla y los ojos afinan en la principal. Hoy el cursor ya cruza de una pantalla a la otra y se recorta a la unión de todas; elegir la pantalla con la cabeza queda para cuando estén los ojos.
+- 📍 **App de la barra de menú** para pausar, recentrar y ajustar la sensibilidad.
+
+### Stack técnico
+
+- Swift y SwiftUI
+- App de macOS y app de watchOS
+- CoreMotion, Vision / MediaPipe, API de Accesibilidad (AX), WatchConnectivity / Network framework
 
 ## Cómo correrlo en Xcode
 
@@ -138,9 +163,18 @@ El mismo par de comandos corre en GitHub Actions (`.github/workflows/ci.yml`) en
 
 El movimiento de la cabeza y, más adelante, la cámara se procesan en la Mac. Esta versión no abre la cámara ni habla con el Watch. No hay cuenta ni red.
 
-## Qué viene después
+## Roadmap
 
-Clicks por dwell, imán a botones, pausa automática al escribir, ojos con la cámara y un bridge para el Apple Watch. Nada de eso está en este build.
+Marcado solo lo que ya está en el código de esta versión.
+
+- [x] Nivel 1: los AirPods mueven el cursor con la cabeza
+- [x] Suavizado y recentrado (filtro One Euro, zona muerta, aceleración)
+- [ ] Click por permanencia (dwell) e imán a los botones
+- [ ] Pausa automática al escribir
+- [x] App de la barra de menú
+- [ ] Nivel 2: seguimiento de ojos y calibración
+- [x] Varios monitores: el cursor cruza pantallas y se recorta a la unión de todas
+- [ ] Nivel 3: app compañera para el Apple Watch
 
 ## English
 
